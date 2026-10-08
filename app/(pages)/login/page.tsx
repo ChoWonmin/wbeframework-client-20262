@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { login } from "@/lib/api/user-account"
 import { useAuthStore } from "@/providers/auth-store-provider"
 import { SubmitEvent, useState } from "react"
 
@@ -29,32 +30,18 @@ export default function LoginPage() {
     const form = event.currentTarget
     const formData = new FormData(form)
 
-    const email = formData.get("email") ?? ""
-    const password = formData.get("password") ?? ""
+    const email = String(formData.get("email") ?? "")
+    const password = String(formData.get("password") ?? "")
 
     setIsSubmitting(true)
     setErrorMessage("")
     clearAccessToken()
 
     try {
-      const response = await fetch(
-        "http://localhost:8080/user-account/login",
-        { 
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({email, password})
-        }
-      )
+      // login api 공통 함수로 구현
+      
 
-      if (!response.ok) {
-        setErrorMessage(`로그인에 실패했습니다. ${response.status}`)
-
-        return
-      }
-
-      const data: LoginResponse = await response.json()
+      const data: LoginResponse = await login({email, password})
       setAccessToken(data.accessToken, data.expiresIn)
 
       form.reset()
