@@ -103,12 +103,10 @@ export default function SignUpPage() {
     } catch {
       alert("회원가입 중 오류가 발생했습니다.")
     }
-
   }
-    
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-4">
+    <main className="flex items-center justify-center p-4">
 
       <Card className="w-full max-w-md">
         <CardHeader>
